@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed — The Nest on Tennyson</title>
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #FAFAF8;
+            color: #1A1A1A;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 48px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .check {
+            width: 72px; height: 72px;
+            background: #E8F0EC;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+        }
+        .check svg { width: 36px; height: 36px; color: #2C5F4B; }
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem; margin-bottom: 12px;
+        }
+        p { color: #6B6B6B; line-height: 1.6; margin-bottom: 16px; }
+        .info-box {
+            background: #FAFAF8; border: 1px solid #E5E5E0;
+            border-radius: 12px; padding: 20px;
+            margin: 24px 0; text-align: left;
+        }
+        .info-row {
+            display: flex; justify-content: space-between;
+            padding: 8px 0; font-size: 0.93rem;
+        }
+        .info-row .label { color: #6B6B6B; }
+        .info-row .value { font-weight: 600; }
+        .btn {
+            display: inline-block;
+            background: #2C5F4B; color: white;
+            padding: 14px 32px; border-radius: 10px;
+            text-decoration: none; font-weight: 600;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #1E4435; }
+        .note { font-size: 0.85rem; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+        </div>
+        <h1>Booking confirmed!</h1>
+        <p>Thank you for choosing The Nest on Tennyson. A confirmation email with your booking details and door access code has been sent to your inbox.</p>
+
+        <div class="info-box">
+            <div class="info-row">
+                <span class="label">What happens next?</span>
+            </div>
+            <div class="info-row">
+                <span class="label">1.</span>
+                <span class="value">Check your email for confirmation &amp; access code</span>
+            </div>
+            <div class="info-row">
+                <span class="label">2.</span>
+                <span class="value">Arrive from 3:00 PM on your check-in day</span>
+            </div>
+            <div class="info-row">
+                <span class="label">3.</span>
+                <span class="value">Enter your code on the Yale lock at the front door</span>
+            </div>
+            <div class="info-row">
+                <span class="label">4.</span>
+                <span class="value">Make yourself at home!</span>
+            </div>
+        </div>
+
+        <a href="/" class="btn">Back to The Nest on Tennyson</a>
+
+        <p class="note">Questions? Email <a href="mailto:founder@boxd.co.nz" style="color: #2C5F4B;">founder@boxd.co.nz</a></p>
+    </div>
+</body>
+</html>
