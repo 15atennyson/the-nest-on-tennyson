@@ -26,7 +26,7 @@ const PRICING_TIERS = [
     { minNights: 28, rate: 190, label: 'Monthly rate' },
     { minNights: 14, rate: 210, label: 'Fortnightly rate' },
     { minNights: 7,  rate: 230, label: 'Weekly rate' },
-    { minNights: 1,  rate: 250, label: 'Standard rate' },
+    { minNights: 2,  rate: 250, label: 'Standard rate' },
 ];
 const CLEANING_FEE = 150;
 const EXTRA_GUEST_FEE = 15;  // per night, per guest above 2
@@ -184,6 +184,10 @@ app.post('/api/create-checkout', async (req, res) => {
 
         if (nights < 1) {
             return res.status(400).json({ error: 'Checkout must be after check-in' });
+        }
+
+        if (nights < 2) {
+            return res.status(400).json({ error: 'Minimum stay is 2 nights' });
         }
 
         // Check availability

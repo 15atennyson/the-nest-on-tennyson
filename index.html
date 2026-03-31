@@ -1107,7 +1107,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="faq-answer">
-                        Free cancellation up to 7 days before check-in for a full refund. Cancellations within 7 days of check-in receive a 50% refund. No refund for cancellations within 24 hours of check-in.
+                        We follow a Firm cancellation policy. Guests can cancel up to 30 days before check-in for a full refund. Cancellations between 7 and 30 days before check-in receive a 50% refund. No refund for cancellations less than 7 days before check-in.
                     </div>
                 </div>
                 <div class="faq-item">
@@ -1194,7 +1194,7 @@
                 </div>
 
                 <div style="margin-top: 16px; text-align: center; font-size: 0.85rem; color: var(--color-text-light);">
-                    Instant confirmation &middot; Self check-in &middot; Free cancellation
+                    Instant confirmation &middot; Self check-in &middot; Free cancellation 30+ days out
                 </div>
             </div>
         </aside>
@@ -1318,7 +1318,7 @@
             { minNights: 28, rate: 190, label: 'Monthly rate' },
             { minNights: 14, rate: 210, label: 'Fortnightly rate' },
             { minNights: 7,  rate: 230, label: 'Weekly rate' },
-            { minNights: 1,  rate: 250, label: 'Nightly rate' },
+            { minNights: 2,  rate: 250, label: 'Nightly rate' },
         ];
         const CLEANING_FEE = 150;       // flat, spread across nights
         const EXTRA_GUEST_FEE = 15;     // per night, per guest above 2
@@ -1398,6 +1398,13 @@
             if (checkin && checkout) {
                 const nights = Math.ceil((new Date(checkout) - new Date(checkin)) / (1000 * 60 * 60 * 24));
                 if (nights > 0) {
+                    if (nights < 2) {
+                        summary.style.display = 'none';
+                        saveDiv.style.display = 'none';
+                        btn.disabled = true;
+                        btn.textContent = '2-night minimum stay';
+                        return;
+                    }
                     const pricing = getAllInRate(nights, guests);
 
                     document.getElementById('nightsLabel').textContent = `$${pricing.allInRate} x ${nights} night${nights > 1 ? 's' : ''}`;
