@@ -540,6 +540,7 @@
             background: var(--color-border);
             cursor: not-allowed;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .booking-summary {
             margin-top: 20px;
             padding-top: 20px;
@@ -1444,8 +1445,9 @@
             }
 
             const btn = document.getElementById('bookBtn');
+            const originalText = btn.textContent;
             btn.disabled = true;
-            btn.textContent = 'Redirecting to payment...';
+            btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 16 16" style="animation:spin 0.8s linear infinite;"><circle cx="8" cy="8" r="6" fill="none" stroke="white" stroke-width="2" stroke-dasharray="28" stroke-dashoffset="8"/></svg> Securing your dates...</span>';
 
             try {
                 const response = await fetch('/api/create-checkout', {
@@ -1457,13 +1459,22 @@
                 const data = await response.json();
 
                 if (data.url) {
+                    btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Redirecting to payment...</span>';
                     window.location.href = data.url;
+                } else if (data.error) {
+                    throw new Error(data.error);
                 } else {
-                    throw new Error(data.error || 'Failed to create checkout session');
+                    throw new Error('Failed to create checkout session');
                 }
             } catch (err) {
-                alert('Sorry, there was an issue processing your booking. Please email founder@boxd.co.nz to book directly.');
+                const msg = err.message.includes('no longer available')
+                    ? 'Those dates were just booked by someone else. Please try different dates.'
+                    : err.message.includes('Minimum stay')
+                    ? 'The minimum stay is 2 nights. Please adjust your dates.'
+                    : 'Sorry, there was an issue. Please try again or email founder@boxd.co.nz to book directly.';
+                alert(msg);
                 btn.disabled = false;
+                btn.textContent = originalText;
                 updateBookingSummary();
             }
         }

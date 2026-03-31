@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Guide — The Nest on Tennyson</title>
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #FAFAF8;
+            --color-card: #FFFFFF;
+            --color-text: #1A1A1A;
+            --color-text-light: #6B6B6B;
+            --color-accent: #2C5F4B;
+            --color-accent-light: #E8F0EC;
+            --color-border: #E5E5E0;
+            --color-warm: #F5F0EB;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .guide-header {
+            background: var(--color-accent);
+            color: white;
+            padding: 60px 24px 48px;
+            text-align: center;
+        }
+        .guide-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        .guide-header p { opacity: 0.85; font-size: 1.05rem; }
+
+        /* Nav */
+        .guide-nav {
+            background: white;
+            border-bottom: 1px solid var(--color-border);
+            padding: 0 24px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .guide-nav-inner {
+            display: flex;
+            gap: 0;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .guide-nav a {
+            padding: 14px 16px;
+            text-decoration: none;
+            color: var(--color-text-light);
+            font-size: 0.88rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .guide-nav a:hover, .guide-nav a.active {
+            color: var(--color-accent);
+            border-bottom-color: var(--color-accent);
+        }
+
+        /* Content */
+        .guide-content {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        /* Section */
+        .guide-section {
+            padding-top: 40px;
+        }
+        .guide-section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        /* Info cards */
+        .info-card {
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .info-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .info-card h3 .icon {
+            font-size: 1.3rem;
+        }
+        .info-card p, .info-card li {
+            color: var(--color-text-light);
+            font-size: 0.93rem;
+        }
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .info-card li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .info-card li::before {
+            content: '•';
+            position: absolute;
+            left: 4px;
+            color: var(--color-accent);
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: var(--color-accent-light);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .highlight-box .label {
+            font-size: 0.82rem;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .highlight-box .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            letter-spacing: 4px;
+        }
+        .highlight-box .sub {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-top: 4px;
+        }
+
+        /* Two-column grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .guide-header { padding: 48px 20px 36px; }
+            .guide-header h1 { font-size: 1.6rem; }
+        }
+
+        /* Place card */
+        .place-card {
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+        .place-card h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .place-card .distance {
+            font-size: 0.82rem;
+            color: var(--color-accent);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .place-card p {
+            font-size: 0.88rem;
+            color: var(--color-text-light);
+        }
+
+        /* Timeline */
+        .timeline {
+            border-left: 2px solid var(--color-accent-light);
+            margin-left: 12px;
+            padding-left: 28px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: var(--color-accent);
+            border-radius: 50%;
+        }
+        .timeline-item h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .timeline-item p {
+            color: var(--color-text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Emergency */
+        .emergency-card {
+            background: #FFF5F5;
+            border: 1px solid #FED7D7;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+        .emergency-card h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: #C53030;
+        }
+        .emergency-card p {
+            font-size: 0.88rem;
+            color: var(--color-text-light);
+        }
+        .emergency-card a {
+            color: #C53030;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        .guide-footer {
+            text-align: center;
+            padding: 32px 24px;
+            color: var(--color-text-light);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--color-border);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .guide-footer a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        /* Host card */
+        .host-card {
+            background: var(--color-warm);
+            border-radius: 14px;
+            padding: 28px;
+            text-align: center;
+            margin: 24px 0;
+        }
+        .host-card h3 { margin-bottom: 8px; }
+        .host-card p { color: var(--color-text-light); font-size: 0.93rem; }
+        .host-card a {
+            display: inline-block;
+            margin-top: 12px;
+            background: var(--color-accent);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="guide-header">
+        <h1>Welcome to The Nest</h1>
+        <p>Your guest guide for a perfect stay in Petone</p>
+    </div>
+
+    <nav class="guide-nav">
+        <div class="guide-nav-inner">
+            <a href="#essentials" class="active">Essentials</a>
+            <a href="#check-in">Check-in</a>
+            <a href="#house">The House</a>
+            <a href="#neighbourhood">Neighbourhood</a>
+            <a href="#rules">House Rules</a>
+            <a href="#help">Help</a>
+        </div>
+    </nav>
+
+    <div class="guide-content">
+
+        <!-- ═══ ESSENTIALS ═══ -->
+        <section class="guide-section" id="essentials">
+            <h2>The Essentials</h2>
+
+            <div class="highlight-box">
+                <div class="label">WiFi Network</div>
+                <div class="value" style="font-size: 1.3rem; letter-spacing: 1px;">The Nest</div>
+                <div class="sub" style="margin-top: 8px;">Password: <strong style="color: var(--color-accent); letter-spacing: 2px;">nestontennyson</strong></div>
+            </div>
+
+            <div class="grid-2">
+                <div class="info-card">
+                    <h3><span class="icon">🕒</span> Check-in</h3>
+                    <p>From <strong>3:00 PM</strong></p>
+                    <p style="margin-top: 4px; font-size: 0.85rem;">Self check-in via Yale smart lock</p>
+                </div>
+                <div class="info-card">
+                    <h3><span class="icon">🕙</span> Checkout</h3>
+                    <p>By <strong>10:00 AM</strong></p>
+                    <p style="margin-top: 4px; font-size: 0.85rem;">Just close the door behind you</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3><span class="icon">📍</span> Address</h3>
+                <p>Tennyson Street, Petone, Lower Hutt 5012, Wellington</p>
+                <p style="margin-top: 4px;"><a href="https://maps.google.com/?q=Tennyson+Street+Petone" target="_blank" style="color: var(--color-accent); text-decoration: none; font-weight: 500;">Open in Google Maps →</a></p>
+            </div>
+
+            <div class="info-card">
+                <h3><span class="icon">🅿️</span> Parking</h3>
+                <p>Free off-street parking is available in the driveway. There's space for one car in the driveway, and unlimited free street parking on Tennyson Street.</p>
+            </div>
+        </section>
+
+        <!-- ═══ CHECK-IN ═══ -->
+        <section class="guide-section" id="check-in">
+            <h2>Check-in Instructions</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Arrive at the property</h4>
+                    <p>Head to Tennyson Street, Petone. Look for the warm, modern home with the dark roof.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Park in the driveway</h4>
+                    <p>Pull into the driveway on the left-hand side. Additional parking is on the street.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Approach the front door</h4>
+                    <p>Walk up the path to the front door. You'll see the Yale smart lock keypad.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Enter your access code</h4>
+                    <p>Type your personal access code on the keypad and press the check button. The door will unlock.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Make yourself at home</h4>
+                    <p>Step inside, close the door behind you, and settle in. Everything you need is here.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ THE HOUSE ═══ -->
+        <section class="guide-section" id="house">
+            <h2>The House</h2>
+
+            <div class="info-card">
+                <h3><span class="icon">🍳</span> Kitchen</h3>
+                <ul>
+                    <li>Full gas range cooktop and oven</li>
+                    <li>Dishwasher, fridge-freezer, microwave</li>
+                    <li>Coffee machine (Nespresso pods provided), kettle, toaster</li>
+                    <li>Pots, pans, utensils, chopping boards, and sharp knives</li>
+                    <li>Cooking oil, salt, pepper, and basic spices</li>
+                    <li>Dish soap, sponges, and tea towels</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3><span class="icon">🛋️</span> Living Area</h3>
+                <ul>
+                    <li>Smart TV with Netflix, Disney+, and Apple TV</li>
+                    <li>Bluetooth speaker for music</li>
+                    <li>Board games and books</li>
+                    <li>Heating / heat pump for cooler evenings</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3><span class="icon">🛏️</span> Bedrooms</h3>
+                <ul>
+                    <li><strong>Main bedroom:</strong> Queen bed with premium linen</li>
+                    <li><strong>Second bedroom:</strong> Queen bed</li>
+                    <li><strong>Kids room:</strong> Bunk beds (single over single)</li>
+                    <li>All linen, pillows, and towels provided</li>
+                    <li>Extra blankets in the wardrobe</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3><span class="icon">🚿</span> Bathrooms</h3>
+                <ul>
+                    <li>Two full bathrooms with showers</li>
+                    <li>Shampoo, conditioner, and body wash provided</li>
+                    <li>Hair dryer in the main bathroom</li>
+                    <li>Fresh towels for each guest</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3><span class="icon">👕</span> Laundry</h3>
+                <ul>
+                    <li>Washing machine and dryer</li>
+                    <li>Laundry detergent, pegs, and drying rack</li>
+                    <li>Iron and ironing board</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3><span class="icon">🌿</span> Outdoor</h3>
+                <ul>
+                    <li>Private fenced garden — safe for kids</li>
+                    <li>Outdoor dining table and chairs</li>
+                    <li>BBQ available</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ═══ NEIGHBOURHOOD ═══ -->
+        <section class="guide-section" id="neighbourhood">
+            <h2>Neighbourhood Guide</h2>
+
+            <p style="color: var(--color-text-light); margin-bottom: 20px;">Petone is a charming coastal village with amazing cafes, restaurants, boutique shops, and easy access to Wellington city.</p>
+
+            <h3 style="font-size: 1rem; margin-bottom: 12px; color: var(--color-accent);">Coffee & Breakfast</h3>
+            <div class="place-card">
+                <h4>Comes & Goes</h4>
+                <div class="distance">3 min walk</div>
+                <p>Local favourite for excellent coffee and brunch. Try the eggs benedict.</p>
+            </div>
+            <div class="place-card">
+                <h4>Pickle & Pie</h4>
+                <div class="distance">5 min walk</div>
+                <p>Outstanding pies, pastries, and coffee on Jackson Street.</p>
+            </div>
+            <div class="place-card">
+                <h4>Fratelli</h4>
+                <div class="distance">5 min walk</div>
+                <p>Italian cafe with great coffee and cabinet food.</p>
+            </div>
+
+            <h3 style="font-size: 1rem; margin: 24px 0 12px; color: var(--color-accent);">Dinner & Drinks</h3>
+            <div class="place-card">
+                <h4>Boneface Brewing</h4>
+                <div class="distance">5 min walk</div>
+                <p>Craft beer taproom with a great food menu. Family friendly.</p>
+            </div>
+            <div class="place-card">
+                <h4>Salty Pidgin</h4>
+                <div class="distance">8 min walk</div>
+                <p>Petone's best restaurant. Modern NZ cuisine with a seasonal menu.</p>
+            </div>
+            <div class="place-card">
+                <h4>Jackson Street Collective</h4>
+                <div class="distance">5 min walk</div>
+                <p>Cocktails, wine, and share plates in a beautiful setting.</p>
+            </div>
+
+            <h3 style="font-size: 1rem; margin: 24px 0 12px; color: var(--color-accent);">Things to Do</h3>
+            <div class="place-card">
+                <h4>Petone Beach & Esplanade</h4>
+                <div class="distance">10 min walk</div>
+                <p>Beautiful waterfront walk along the harbour. Great for a morning stroll or sunset views of Wellington.</p>
+            </div>
+            <div class="place-card">
+                <h4>Jackson Street Shopping</h4>
+                <div class="distance">5 min walk</div>
+                <p>Vintage shops, boutiques, bookshops, and specialty stores.</p>
+            </div>
+            <div class="place-card">
+                <h4>Wellington CBD</h4>
+                <div class="distance">15 min by train</div>
+                <p>Catch the train from Petone Station to the city. Te Papa, the waterfront, and Cuba Street are all walkable from the station.</p>
+            </div>
+            <div class="place-card">
+                <h4>Wainuiomata Mountain Bike Park</h4>
+                <div class="distance">15 min drive</div>
+                <p>Some of the best mountain biking trails in the Wellington region.</p>
+            </div>
+
+            <h3 style="font-size: 1rem; margin: 24px 0 12px; color: var(--color-accent);">Groceries & Essentials</h3>
+            <div class="grid-2">
+                <div class="place-card">
+                    <h4>New World Petone</h4>
+                    <div class="distance">5 min drive</div>
+                    <p>Full supermarket</p>
+                </div>
+                <div class="place-card">
+                    <h4>Petone Four Square</h4>
+                    <div class="distance">5 min walk</div>
+                    <p>Quick essentials</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ HOUSE RULES ═══ -->
+        <section class="guide-section" id="rules">
+            <h2>House Rules</h2>
+
+            <div class="info-card">
+                <ul>
+                    <li><strong>Check-in:</strong> 3:00 PM — <strong>Checkout:</strong> 10:00 AM</li>
+                    <li><strong>No smoking</strong> inside the property (outdoor area is fine)</li>
+                    <li><strong>No parties or events</strong> — this is a residential neighbourhood</li>
+                    <li><strong>Quiet hours</strong> after 10:00 PM — please be considerate of neighbours</li>
+                    <li><strong>Pets:</strong> Please ask first — considered on a case-by-case basis</li>
+                    <li><strong>Maximum guests:</strong> 6 people (as per booking)</li>
+                    <li>Please <strong>start the dishwasher</strong> and <strong>take out rubbish</strong> before checkout</li>
+                    <li>Please leave the property <strong>as you found it</strong> — no need to strip beds</li>
+                    <li><strong>Report any damage</strong> promptly — accidents happen and we appreciate honesty</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3><span class="icon">🗑️</span> Rubbish & Recycling</h3>
+                <p>Recycling bin (yellow lid) and general rubbish bin (red lid) are at the side of the house. Collection day is <strong>Tuesday</strong>. Please put bins out the night before if your stay covers a Tuesday.</p>
+            </div>
+        </section>
+
+        <!-- ═══ HELP ═══ -->
+        <section class="guide-section" id="help">
+            <h2>Need Help?</h2>
+
+            <div class="host-card">
+                <h3>Your host: James</h3>
+                <p>I'm available for anything you need during your stay. Don't hesitate to reach out — no question is too small.</p>
+                <a href="mailto:founder@boxd.co.nz">Send me a message</a>
+            </div>
+
+            <h3 style="font-size: 1rem; margin: 24px 0 12px; color: var(--color-accent);">Appliance Troubleshooting</h3>
+            <div class="info-card">
+                <h3><span class="icon">🔐</span> Door Lock</h3>
+                <p>If your code doesn't work, make sure you press the check button after entering all digits. If it still doesn't open, text or call James immediately.</p>
+            </div>
+            <div class="info-card">
+                <h3><span class="icon">🌡️</span> Heat Pump</h3>
+                <p>The remote is on the wall in the living room. Press the power button, set to HEAT mode, and adjust to your preferred temperature (20–22°C is comfortable).</p>
+            </div>
+            <div class="info-card">
+                <h3><span class="icon">📺</span> TV & Streaming</h3>
+                <p>Turn on the TV with the Samsung remote. Netflix, Disney+, and Apple TV are preloaded. Please don't log out of any accounts.</p>
+            </div>
+
+            <h3 style="font-size: 1rem; margin: 24px 0 12px; color: #C53030;">Emergency Contacts</h3>
+            <div class="emergency-card">
+                <h4>Emergency Services</h4>
+                <p><a href="tel:111">111</a> — Police, Fire, Ambulance</p>
+            </div>
+            <div class="emergency-card">
+                <h4>Hutt Hospital (A&E)</h4>
+                <p><a href="tel:045666999">04 566 6999</a> — Pilmuir Street, Lower Hutt (10 min drive)</p>
+            </div>
+            <div class="emergency-card">
+                <h4>Your Host — James</h4>
+                <p><a href="mailto:founder@boxd.co.nz">founder@boxd.co.nz</a> — Available for anything you need</p>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="guide-footer">
+        <p>The Nest on Tennyson · Petone, Wellington</p>
+        <p style="margin-top: 8px;"><a href="/">← Back to main site</a></p>
+    </div>
+
+    <script>
+        // Sticky nav highlighting
+        const sections = document.querySelectorAll('.guide-section');
+        const navLinks = document.querySelectorAll('.guide-nav a');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    const activeLink = document.querySelector(`.guide-nav a[href="#${entry.target.id}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-40% 0px -60% 0px' });
+
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>

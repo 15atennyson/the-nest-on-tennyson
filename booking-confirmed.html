@@ -8,95 +8,339 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --color-bg: #FAFAF8;
+            --color-card: #FFFFFF;
+            --color-text: #1A1A1A;
+            --color-text-light: #6B6B6B;
+            --color-accent: #2C5F4B;
+            --color-accent-light: #E8F0EC;
+            --color-border: #E5E5E0;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'DM Sans', sans-serif;
-            background: #FAFAF8;
-            color: #1A1A1A;
+            background: var(--color-bg);
+            color: var(--color-text);
             min-height: 100vh;
             display: flex; align-items: center; justify-content: center;
             padding: 24px;
         }
         .card {
-            background: white;
+            background: var(--color-card);
             border-radius: 20px;
-            padding: 48px;
-            max-width: 520px;
+            padding: 48px 40px;
+            max-width: 560px;
             width: 100%;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         }
-        .check {
-            width: 72px; height: 72px;
-            background: #E8F0EC;
+        @media (max-width: 480px) {
+            .card { padding: 36px 24px; }
+        }
+
+        /* Success animation */
+        .success-icon {
+            width: 80px; height: 80px;
+            background: var(--color-accent-light);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 24px;
+            margin: 0 auto 28px;
+            animation: scaleIn 0.5s ease-out;
         }
-        .check svg { width: 36px; height: 36px; color: #2C5F4B; }
+        .success-icon svg { width: 40px; height: 40px; color: var(--color-accent); }
+        @keyframes scaleIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         h1 {
             font-family: 'DM Serif Display', serif;
-            font-size: 1.8rem; margin-bottom: 12px;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 8px;
         }
-        p { color: #6B6B6B; line-height: 1.6; margin-bottom: 16px; }
-        .info-box {
-            background: #FAFAF8; border: 1px solid #E5E5E0;
-            border-radius: 12px; padding: 20px;
-            margin: 24px 0; text-align: left;
+        .subtitle {
+            text-align: center;
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 28px;
         }
-        .info-row {
-            display: flex; justify-content: space-between;
-            padding: 8px 0; font-size: 0.93rem;
+
+        /* Booking details */
+        .details-box {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 20px;
         }
-        .info-row .label { color: #6B6B6B; }
-        .info-row .value { font-weight: 600; }
-        .btn {
-            display: inline-block;
-            background: #2C5F4B; color: white;
-            padding: 14px 32px; border-radius: 10px;
-            text-decoration: none; font-weight: 600;
-            margin-top: 8px;
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 0.93rem;
+        }
+        .detail-row + .detail-row {
+            border-top: 1px solid var(--color-border);
+        }
+        .detail-row .label { color: var(--color-text-light); }
+        .detail-row .value { font-weight: 600; text-align: right; }
+        .detail-row.total {
+            padding-top: 14px;
+            margin-top: 4px;
+            border-top: 2px solid var(--color-border);
+        }
+        .detail-row.total .label { font-weight: 700; font-size: 1rem; }
+        .detail-row.total .value { font-weight: 700; font-size: 1.15rem; color: var(--color-accent); }
+
+        /* Steps */
+        .steps {
+            margin: 24px 0;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 12px 0;
+        }
+        .step-num {
+            width: 32px; height: 32px;
+            background: var(--color-accent-light);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            color: var(--color-accent);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .step-text h4 { font-size: 0.93rem; margin-bottom: 2px; }
+        .step-text p { color: var(--color-text-light); font-size: 0.85rem; }
+
+        /* CTA buttons */
+        .cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 28px;
+        }
+        .btn-primary {
+            display: block;
+            text-align: center;
+            background: var(--color-accent);
+            color: white;
+            padding: 15px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
             transition: background 0.2s;
         }
-        .btn:hover { background: #1E4435; }
-        .note { font-size: 0.85rem; margin-top: 20px; }
+        .btn-primary:hover { background: #1E4435; }
+        .btn-secondary {
+            display: block;
+            text-align: center;
+            background: var(--color-bg);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+            padding: 13px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.93rem;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover { background: var(--color-border); }
+
+        .note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-top: 24px;
+            line-height: 1.5;
+        }
+        .note a { color: var(--color-accent); text-decoration: none; }
+
+        /* Loading state */
+        .loading { text-align: center; padding: 60px 0; }
+        .loading-spinner {
+            width: 40px; height: 40px;
+            border: 3px solid var(--color-border);
+            border-top-color: var(--color-accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading p { color: var(--color-text-light); }
+
+        /* Confetti */
+        .confetti-piece {
+            position: fixed;
+            width: 10px; height: 10px;
+            top: -10px;
+            opacity: 0;
+            animation: confettiFall 3s ease-out forwards;
+        }
+        @keyframes confettiFall {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+        }
     </style>
 </head>
 <body>
     <div class="card">
-        <div class="check">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="20 6 9 17 4 12"/>
-            </svg>
-        </div>
-        <h1>Booking confirmed!</h1>
-        <p>Thank you for choosing The Nest on Tennyson. A confirmation email with your booking details and door access code has been sent to your inbox.</p>
-
-        <div class="info-box">
-            <div class="info-row">
-                <span class="label">What happens next?</span>
-            </div>
-            <div class="info-row">
-                <span class="label">1.</span>
-                <span class="value">Check your email for confirmation &amp; access code</span>
-            </div>
-            <div class="info-row">
-                <span class="label">2.</span>
-                <span class="value">Arrive from 3:00 PM on your check-in day</span>
-            </div>
-            <div class="info-row">
-                <span class="label">3.</span>
-                <span class="value">Enter your code on the Yale lock at the front door</span>
-            </div>
-            <div class="info-row">
-                <span class="label">4.</span>
-                <span class="value">Make yourself at home!</span>
-            </div>
+        <!-- Loading state -->
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading your booking details...</p>
         </div>
 
-        <a href="/" class="btn">Back to The Nest on Tennyson</a>
+        <!-- Confirmed state (hidden initially) -->
+        <div id="confirmed" style="display: none;">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
+            </div>
 
-        <p class="note">Questions? Email <a href="mailto:founder@boxd.co.nz" style="color: #2C5F4B;">founder@boxd.co.nz</a></p>
+            <h1>You're all set!</h1>
+            <p class="subtitle">
+                <span id="guestName"></span>, your stay at The Nest on Tennyson is confirmed.
+                <br>A confirmation email is on its way to <strong id="guestEmail"></strong>.
+            </p>
+
+            <div class="details-box">
+                <div class="detail-row">
+                    <span class="label">Check-in</span>
+                    <span class="value" id="checkinDate"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Checkout</span>
+                    <span class="value" id="checkoutDate"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Duration</span>
+                    <span class="value" id="nightsCount"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Guests</span>
+                    <span class="value" id="guestsCount"></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Rate</span>
+                    <span class="value" id="rateInfo"></span>
+                </div>
+                <div class="detail-row total">
+                    <span class="label">Total paid</span>
+                    <span class="value" id="totalPaid"></span>
+                </div>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-text">
+                        <h4>Check your email</h4>
+                        <p>Confirmation with your door access code and all the details</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-text">
+                        <h4>Read the guest guide</h4>
+                        <p>WiFi, appliances, local tips, and everything you need to know</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-text">
+                        <h4>We'll be in touch</h4>
+                        <p>Expect a reminder 3 days before and a welcome note on check-in day</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-group">
+                <a href="/guide.html" class="btn-primary">Open Your Guest Guide</a>
+                <a href="/" class="btn-secondary">Back to The Nest on Tennyson</a>
+            </div>
+
+            <p class="note">
+                Need to change something? Just reply to your confirmation email
+                <br>or contact <a href="mailto:founder@boxd.co.nz">James</a> directly.
+            </p>
+        </div>
+
+        <!-- Error state (hidden) -->
+        <div id="error" style="display: none; text-align: center; padding: 40px 0;">
+            <h2 style="margin-bottom: 12px;">Something went wrong</h2>
+            <p style="color: var(--color-text-light); margin-bottom: 24px;">We couldn't load your booking details, but don't worry — if your payment was successful, your booking is confirmed. Check your email for details.</p>
+            <a href="/" class="btn-secondary" style="display: inline-block;">Back to The Nest on Tennyson</a>
+        </div>
     </div>
+
+    <script>
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString('en-NZ', {
+                weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
+            });
+        }
+
+        function launchConfetti() {
+            const colors = ['#2C5F4B', '#E8F0EC', '#D4A574', '#F5F0EB', '#6B9E8A'];
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + 'vw';
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = Math.random() * 1.5 + 's';
+                piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+                piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                piece.style.width = (6 + Math.random() * 8) + 'px';
+                piece.style.height = (6 + Math.random() * 8) + 'px';
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 5000);
+            }
+        }
+
+        async function loadBooking() {
+            const params = new URLSearchParams(window.location.search);
+            const sessionId = params.get('session_id');
+
+            if (!sessionId) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/booking/${sessionId}`);
+                if (!res.ok) throw new Error('Not found');
+                const data = await res.json();
+
+                document.getElementById('guestName').textContent = data.name ? data.name.split(' ')[0] : 'Guest';
+                document.getElementById('guestEmail').textContent = data.email;
+                document.getElementById('checkinDate').textContent = formatDate(data.checkin) + ' from 3 PM';
+                document.getElementById('checkoutDate').textContent = formatDate(data.checkout) + ' by 10 AM';
+                document.getElementById('nightsCount').textContent = data.nights + ' night' + (data.nights > 1 ? 's' : '');
+                document.getElementById('guestsCount').textContent = data.guests + ' guest' + (data.guests > 1 ? 's' : '');
+                document.getElementById('rateInfo').textContent = `$${data.ratePerNight}/night · ${data.tierLabel}`;
+                document.getElementById('totalPaid').textContent = `$${Number(data.total).toLocaleString()} NZD`;
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('confirmed').style.display = 'block';
+
+                launchConfetti();
+            } catch (err) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+
+        loadBooking();
+    </script>
 </body>
 </html>
