@@ -455,12 +455,8 @@
             box-shadow: var(--shadow-lg);
             position: relative;
         }
-        .booking-card .flatpickr-calendar {
-            left: 0 !important;
-            right: 0 !important;
-            margin: 0 auto;
-            width: 100% !important;
-            max-width: 336px;
+        .flatpickr-calendar {
+            z-index: 99999 !important;
         }
         .booking-price {
             display: flex; align-items: baseline; gap: 6px;
@@ -1362,15 +1358,12 @@
         function initDatePickers() {
             const disableDates = bookedDates.map(d => d);
 
-            const bookingCard = document.querySelector('.booking-card');
-
             const checkinPicker = flatpickr('#checkin', {
                 minDate: 'today',
                 dateFormat: 'Y-m-d',
                 altInput: true,
                 altFormat: 'D, M j',
                 disable: disableDates,
-                appendTo: bookingCard,
                 onChange: function(selectedDates) {
                     if (selectedDates.length > 0) {
                         const minCheckout = new Date(selectedDates[0]);
@@ -1388,7 +1381,6 @@
                 altInput: true,
                 altFormat: 'D, M j',
                 disable: disableDates,
-                appendTo: bookingCard,
                 onChange: function() {
                     updateBookingSummary();
                 }
