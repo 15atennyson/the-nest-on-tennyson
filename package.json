@@ -19,6 +19,7 @@
     "nodemailer": "^6.9.8",
     "stripe": "^14.14.0",
     "seam": "^1.0.0",
-    "node-cron": "^3.0.3"
+    "node-cron": "^3.0.3",
+    "@anthropic-ai/sdk": "^0.39.0"
   }
 }

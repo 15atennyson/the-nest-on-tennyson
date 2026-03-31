@@ -9,6 +9,7 @@
  * 5. Webhook processing for confirmed payments
  * 6. Scheduled email automation (cron)
  * 7. Digital guidebook serving
+ * 8. AI concierge chat (Claude-powered)
  */
 
 require('dotenv').config();
@@ -16,10 +17,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
 const fetch = require('node-fetch');
 const cron = require('node-cron');
+const Anthropic = require('@anthropic-ai/sdk');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -797,7 +800,184 @@ app.get('/api/calendar.ics', (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════
-// 8. ADMIN — View bookings & scheduled emails
+// ═══════════════════════════════════════════════════════════
+// 8. AI CONCIERGE CHAT — Claude-powered guest assistant
+// ═══════════════════════════════════════════════════════════
+
+const knowledgeBasePath = path.join(__dirname, 'knowledge-base.json');
+let knowledgeBase = {};
+try {
+    knowledgeBase = JSON.parse(fs.readFileSync(knowledgeBasePath, 'utf-8'));
+} catch (err) {
+    console.error('Failed to load knowledge base:', err.message);
+}
+
+// Chat conversation store (in-memory, per session)
+const chatSessions = new Map();
+
+// Initialize Anthropic client
+let anthropic = null;
+if (process.env.ANTHROPIC_API_KEY) {
+    anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
+
+function buildSystemPrompt() {
+    return `You are the AI concierge for "${knowledgeBase.property?.name || 'The Nest on Tennyson'}", a premium self-contained holiday home in Petone, Wellington, New Zealand. Your host is James.
+
+Your role is to warmly and helpfully answer guest questions about the property, the booking process, the neighbourhood, and anything related to their stay. You should feel like a knowledgeable, friendly local who genuinely wants guests to have an amazing experience.
+
+PROPERTY KNOWLEDGE:
+${JSON.stringify(knowledgeBase, null, 2)}
+
+GUIDELINES:
+- Be warm, concise, and genuinely helpful. Match the premium feel of the property.
+- Keep responses short (2-4 sentences max) unless the guest asks for detail.
+- Use the knowledge base to answer questions accurately. Don't make up information.
+- For booking questions, direct them to use the booking form on the website or the guide page.
+- If you're not confident about something or it's not in the knowledge base, say so honestly and offer to connect them with James (the host) via email at founder@boxd.co.nz.
+- Never share the WiFi password or access codes to people who haven't booked — say these are shared after booking.
+- You can recommend local restaurants, activities, and transport options from the knowledge base.
+- If asked about availability or specific dates, direct them to use the date picker on the booking form which shows live availability.
+- Don't use emojis excessively. One per message maximum.
+- Always respond in the same language the guest uses.
+- Set the "confidence" field to "low" if you're uncertain or the question is outside the knowledge base, "high" if you're sure.`;
+}
+
+app.post('/api/chat', async (req, res) => {
+    if (!anthropic) {
+        return res.status(503).json({
+            reply: "I'm not available right now, but James would love to help! Send him an email at founder@boxd.co.nz and he'll get back to you quickly.",
+            confidence: 'low'
+        });
+    }
+
+    try {
+        const { message, sessionId } = req.body;
+        if (!message || message.trim().length === 0) {
+            return res.status(400).json({ error: 'Message is required' });
+        }
+
+        // Rate limiting: max 20 messages per session
+        const sid = sessionId || 'anonymous';
+        if (!chatSessions.has(sid)) {
+            chatSessions.set(sid, { messages: [], created: Date.now() });
+        }
+        const session = chatSessions.get(sid);
+
+        if (session.messages.length >= 40) { // 20 user + 20 assistant
+            return res.json({
+                reply: "I've been happy to help! For anything else, feel free to email James directly at founder@boxd.co.nz — he's always happy to chat.",
+                confidence: 'high'
+            });
+        }
+
+        // Add user message to history
+        session.messages.push({ role: 'user', content: message.trim() });
+
+        // Call Claude
+        const response = await anthropic.messages.create({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 300,
+            system: buildSystemPrompt(),
+            messages: session.messages.slice(-10), // Keep last 10 messages for context
+        });
+
+        const assistantMessage = response.content[0].text;
+        session.messages.push({ role: 'assistant', content: assistantMessage });
+
+        // Detect if the AI couldn't answer (simple heuristic)
+        const lowConfidence = /i('m| am) not sure|i don('t|'t) have|contact james|email.*james|founder@boxd/i.test(assistantMessage);
+
+        // Log unanswered questions for learning
+        if (lowConfidence) {
+            console.log(`❓ Unanswered chat question: "${message}"`);
+            logUnansweredQuestion(message, assistantMessage);
+        }
+
+        res.json({
+            reply: assistantMessage,
+            confidence: lowConfidence ? 'low' : 'high'
+        });
+
+    } catch (err) {
+        console.error('Chat error:', err.message);
+        res.json({
+            reply: "I'm having a moment — sorry about that! For immediate help, email James at founder@boxd.co.nz.",
+            confidence: 'low'
+        });
+    }
+});
+
+// Log unanswered questions so James can review and add to the knowledge base
+function logUnansweredQuestion(question, aiResponse) {
+    try {
+        const logPath = path.join(__dirname, 'unanswered-questions.json');
+        let log = [];
+        if (fs.existsSync(logPath)) {
+            log = JSON.parse(fs.readFileSync(logPath, 'utf-8'));
+        }
+        log.push({
+            question,
+            aiResponse,
+            timestamp: new Date().toISOString()
+        });
+        fs.writeFileSync(logPath, JSON.stringify(log, null, 2));
+    } catch (err) {
+        console.error('Failed to log unanswered question:', err.message);
+    }
+}
+
+// Admin: Add a new Q&A to the knowledge base (so the bot learns)
+app.post('/api/chat/learn', express.json(), (req, res) => {
+    // In production, add authentication here
+    const { question, answer } = req.body;
+    if (!question || !answer) {
+        return res.status(400).json({ error: 'Question and answer are required' });
+    }
+
+    try {
+        const kb = JSON.parse(fs.readFileSync(knowledgeBasePath, 'utf-8'));
+        if (!kb.learnedQA) kb.learnedQA = [];
+        kb.learnedQA.push({ q: question, a: answer, addedAt: new Date().toISOString() });
+        fs.writeFileSync(knowledgeBasePath, JSON.stringify(kb, null, 2));
+
+        // Reload in memory
+        knowledgeBase = kb;
+
+        res.json({ success: true, totalQA: kb.faq.length + kb.learnedQA.length });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update knowledge base' });
+    }
+});
+
+// Admin: View unanswered questions
+app.get('/api/chat/unanswered', (req, res) => {
+    // In production, add authentication here
+    try {
+        const logPath = path.join(__dirname, 'unanswered-questions.json');
+        if (fs.existsSync(logPath)) {
+            res.json(JSON.parse(fs.readFileSync(logPath, 'utf-8')));
+        } else {
+            res.json([]);
+        }
+    } catch (err) {
+        res.json([]);
+    }
+});
+
+// Clean up old chat sessions every hour
+setInterval(() => {
+    const oneHour = 60 * 60 * 1000;
+    const now = Date.now();
+    for (const [sid, session] of chatSessions) {
+        if (now - session.created > oneHour) {
+            chatSessions.delete(sid);
+        }
+    }
+}, 60 * 60 * 1000);
+
+// ═══════════════════════════════════════════════════════════
+// 9. ADMIN — View bookings & scheduled emails
 // ═══════════════════════════════════════════════════════════
 
 app.get('/api/bookings', (req, res) => {
@@ -827,5 +1007,7 @@ app.listen(PORT, () => {
     if (!process.env.AIRBNB_ICAL_URL) console.warn('⚠️  AIRBNB_ICAL_URL not set — calendar sync disabled');
     if (!process.env.SEAM_API_KEY) console.warn('⚠️  SEAM_API_KEY not set — using manual lock codes');
     if (!process.env.SMTP_USER) console.warn('⚠️  SMTP not configured — emails disabled');
+    if (!process.env.ANTHROPIC_API_KEY) console.warn('⚠️  ANTHROPIC_API_KEY not set — AI chat disabled');
     console.log('📅 Email scheduler active (checking every 5 minutes)');
+    console.log('💬 AI concierge ' + (anthropic ? 'ready' : 'disabled (no API key)'));
 });

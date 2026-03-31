@@ -1,0 +1,134 @@
+{
+  "property": {
+    "name": "The Nest on Tennyson",
+    "type": "Self-contained holiday home",
+    "location": "Tennyson Street, Petone, Lower Hutt 5012, Wellington, New Zealand",
+    "host": "James",
+    "hostEmail": "founder@boxd.co.nz",
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "maxGuests": 6,
+    "description": "A warm, modern 3-bedroom family retreat on a quiet tree-lined street in Petone. Walk to Jackson Street cafes, Petone Beach, and catch the train to Wellington CBD."
+  },
+  "checkin": {
+    "time": "3:00 PM",
+    "method": "Self check-in via Yale smart lock keypad on the front door",
+    "instructions": "Enter your personal access code on the Yale keypad at the front door and press the check button. The door will unlock automatically."
+  },
+  "checkout": {
+    "time": "10:00 AM",
+    "instructions": "Please start the dishwasher, take out any rubbish, and close the door behind you. No need to strip the beds."
+  },
+  "pricing": {
+    "standard": "$250/night (2-6 nights)",
+    "weekly": "$230/night (7-13 nights, save 8%)",
+    "fortnightly": "$210/night (14-27 nights, save 16%)",
+    "monthly": "$190/night (28+ nights, save 24%)",
+    "cleaningFee": "Included in the nightly rate",
+    "minimumStay": "2 nights",
+    "currency": "NZD",
+    "extraGuestFee": "$15/night per guest above 2"
+  },
+  "cancellation": {
+    "policy": "Firm",
+    "fullRefund": "Cancel 30+ days before check-in for a full refund",
+    "partialRefund": "Cancel 7-30 days before check-in for a 50% refund",
+    "noRefund": "No refund for cancellations less than 7 days before check-in"
+  },
+  "amenities": {
+    "kitchen": "Full kitchen with gas range, oven, dishwasher, fridge-freezer, microwave, Nespresso coffee machine, kettle, toaster, pots, pans, utensils, oil, salt, pepper, and spices",
+    "livingRoom": "Smart TV with Netflix, Disney+, Apple TV, Bluetooth speaker, board games, books, heat pump",
+    "bedrooms": "Main: queen bed, Second: queen bed, Kids room: bunk beds (single over single). All linen, pillows, towels provided. Extra blankets in wardrobes.",
+    "bathrooms": "Two full bathrooms with showers, shampoo, conditioner, body wash, hair dryer",
+    "laundry": "Washing machine, dryer, detergent, pegs, drying rack, iron and ironing board",
+    "outdoor": "Private fenced garden (safe for kids), outdoor dining table, BBQ",
+    "wifi": "Free WiFi throughout the property",
+    "parking": "Free off-street parking in the driveway (1 car) plus unlimited free street parking",
+    "heating": "Heat pump in the living area"
+  },
+  "houseRules": [
+    "No smoking inside (outdoor area is fine)",
+    "No parties or events — residential neighbourhood",
+    "Quiet hours after 10:00 PM",
+    "Pets considered on a case-by-case basis — please ask first",
+    "Maximum 6 guests as per booking",
+    "Start the dishwasher and take out rubbish before checkout",
+    "Report any damage promptly"
+  ],
+  "neighbourhood": {
+    "area": "Petone is a charming coastal village with amazing cafes, restaurants, boutique shops, and easy access to Wellington city",
+    "coffee": [
+      {"name": "Comes & Goes", "distance": "3 min walk", "note": "Local favourite for coffee and brunch"},
+      {"name": "Pickle & Pie", "distance": "5 min walk", "note": "Outstanding pies and pastries on Jackson Street"},
+      {"name": "Fratelli", "distance": "5 min walk", "note": "Italian cafe with great coffee"}
+    ],
+    "dinner": [
+      {"name": "Boneface Brewing", "distance": "5 min walk", "note": "Craft beer taproom with food, family friendly"},
+      {"name": "Salty Pidgin", "distance": "8 min walk", "note": "Petone's best restaurant, modern NZ cuisine"},
+      {"name": "Jackson Street Collective", "distance": "5 min walk", "note": "Cocktails, wine, and share plates"}
+    ],
+    "activities": [
+      {"name": "Petone Beach & Esplanade", "distance": "10 min walk", "note": "Waterfront walk, sunset views of Wellington"},
+      {"name": "Jackson Street Shopping", "distance": "5 min walk", "note": "Vintage shops, boutiques, bookshops"},
+      {"name": "Wellington CBD", "distance": "15 min by train", "note": "Te Papa, waterfront, Cuba Street"},
+      {"name": "Wainuiomata Mountain Bike Park", "distance": "15 min drive", "note": "Great mountain biking trails"}
+    ],
+    "groceries": [
+      {"name": "New World Petone", "distance": "5 min drive"},
+      {"name": "Petone Four Square", "distance": "5 min walk"}
+    ]
+  },
+  "transport": {
+    "fromAirport": "Wellington Airport is about 20-25 minutes by car. Uber/taxi available. No direct public transport — take a taxi to Wellington Station then train to Petone.",
+    "train": "Petone Station is a 10-minute walk. Trains to Wellington CBD take about 15 minutes and run frequently.",
+    "driving": "Free parking at the property. Petone is well connected to SH2 for exploring the wider Wellington region."
+  },
+  "emergency": {
+    "services": "111 (Police, Fire, Ambulance)",
+    "hospital": "Hutt Hospital A&E — 04 566 6999, Pilmuir Street, Lower Hutt (10 min drive)",
+    "host": "James — founder@boxd.co.nz"
+  },
+  "faq": [
+    {
+      "q": "Is the property suitable for children?",
+      "a": "Absolutely! There's a dedicated kids' bedroom with bunk beds, a secure fenced garden, and Petone Beach and playgrounds are nearby."
+    },
+    {
+      "q": "Can I bring my pet?",
+      "a": "Pets are considered on a case-by-case basis. Please message James before booking to discuss."
+    },
+    {
+      "q": "Is there early check-in or late checkout?",
+      "a": "Early check-in and late checkout may be available depending on bookings. Please ask James and he'll do his best to accommodate."
+    },
+    {
+      "q": "What's included in the price?",
+      "a": "Everything — cleaning fee, WiFi, linen, towels, kitchen basics, coffee, tea, and parking are all included in the nightly rate."
+    },
+    {
+      "q": "How do I get to Wellington from the property?",
+      "a": "The easiest way is the train from Petone Station (10 min walk). Trains to Wellington CBD take about 15 minutes and run frequently."
+    },
+    {
+      "q": "Is there a BBQ?",
+      "a": "Yes, there's a BBQ in the private garden area."
+    },
+    {
+      "q": "What streaming services are available?",
+      "a": "The Smart TV has Netflix, Disney+, and Apple TV pre-loaded."
+    },
+    {
+      "q": "Is the property wheelchair accessible?",
+      "a": "The property has some steps at the entrance so it's not fully wheelchair accessible. Please contact James to discuss your specific needs."
+    },
+    {
+      "q": "Can I do laundry?",
+      "a": "Yes — there's a washing machine, dryer, and laundry detergent provided."
+    },
+    {
+      "q": "What's the WiFi password?",
+      "a": "The WiFi details are shared after booking in your guest guide. Network: 'The Nest', Password: 'nestontennyson'."
+    }
+  ],
+  "learnedQA": []
+}
